@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Login – MASOTLA'S BUTCHERY</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+h1 {
+    color: navy;
+}
+    :root{--line:#e5e7eb;--brand:#2563eb}
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;background:#f7fafc}
+    header{border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0}
+    .wrap{max-width:980px;margin:0 auto;padding:14px 16px;display:flex;gap:14px;align-items:center}
+    nav{margin-left:auto;display:flex;gap:10px}
+    nav a{padding:8px 12px;border-radius:999px;text-decoration:none;color:#111827}
+    nav a:hover{background:var(--line)}
+    main{max-width:420px;margin:40px auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}
+    label{display:block;margin:10px 0 6px}
+    input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px}
+    .btn{margin-top:14px;width:100%;padding:10px 12px;background:var(--brand);border:0;color:#fff;border-radius:10px;cursor:pointer}
+    .hint{font-size:13px;color:#6b7280;margin-top:8px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">MASOTLA'S BUTCHERY</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="ORDER.html">Order</a>
+        <a href="Contact.html">Contact</a>
+        <a class="active" href="LOGIN.html">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h2>Login</h2>
+    <form onsubmit="return handleLogin(event)">
+      <label for="user">Username</label>
+      <input id="user" name="user" autocomplete="username" required />
+      <label for="pass">Password</label>
+      <input id="pass" name="pass" type="password" autocomplete="current-password" required />
+      <button class="btn" type="submit">Sign in</button>
+      
+
+      <footer>© <span id="y"></span> MASOTLA'S BUTCHERY</footer>
+    </form>
+  </main>
+  <script>
+    function handleLogin(e){
+      e.preventDefault();
+      const u=document.getElementById('user').
+      value.trim();
+      const p=document.getElementById('pass').
+      value.trim();
+      if (!u||!p){arlet('please fill in all fields.');return false;}
+alert('logged in');
+window.location.href='index.html';
+return false;
+    }
+  </script>
+</body>
+</html>
+</body>
+</html>

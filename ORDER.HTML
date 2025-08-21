@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Order –  MASOTLA'S BUTCHERY</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --line: #e5e7eb;
+      --brand: #2563eb;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --light-bg: #f7fafc;
+      --dark-text: #111827;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--light-bg);
+      color: var(--dark-text);
+      line-height: 1.6;
+    }
+    
+    header {
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    
+    .brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--brand);
+    }
+    
+    nav {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+    
+    nav a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: var(--dark-text);
+      transition: var(--transition);
+    }
+    
+    nav a:hover, nav a.active {
+      background: var(--line);
+    }
+    
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--brand);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+    
+    .page-title {
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--line);
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 24px;
+    }
+    
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      transition: var(--transition);
+      box-shadow: var(--card-shadow);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+    
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+    
+    .price {
+      color: var(--brand);
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+    
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+    
+    input[type=number] {
+      width: 80px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .btn {
+      padding: 10px 16px;
+      background: var(--brand);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    
+    .btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+    
+    .btn-success {
+      background: var(--success);
+    }
+    
+    .btn-success:hover {
+      background: #059669;
+    }
+    
+    .btn-danger {
+      background: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+    
+    .total-container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+      box-shadow: var(--card-shadow);
+      position: sticky;
+      bottom: 20px;
+      border: 1px solid var(--line);
+    }
+    
+    .total {
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+    
+    .checkout-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 1.1rem;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .modal-title {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    
+    .order-summary {
+      background: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px;
+      background: var(--success);
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 1100;
+    }
+    
+    .order-progress {
+      display: flex;
+      justify-content: space-between;
+      margin: 30px 0;
+      position: relative;
+    }
+    
+    .order-progress::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--line);
+      z-index: 1;
+    }
+    
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      border: 4px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 8px;
+      transition: var(--transition);
+    }
+    
+    .step-active .step-number {
+      border-color: var(--brand);
+      background: var(--brand);
+      color: white;
+    }
+    
+    .step-complete .step-number {
+      border-color: var(--success);
+      background: var(--success);
+      color: white;
+    }
+    
+    .step-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    
+    .confirmation-screen {
+      text-align: center;
+      padding: 40px 20px;
+      display: none;
+    }
+    
+    .confirmation-icon {
+      font-size: 4rem;
+      color: var(--success);
+      margin-bottom: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+        margin-left: auto;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      
+      .order-progress {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+      }
+      
+      .order-progress::before {
+        display: none;
+      }
+      
+      .progress-step {
+        flex-direction: row;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand"> MASOTLA'S BUTCHERY</div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a class="active" href="ORDER.html">Order</a>
+        <a href="Contact.html">Contact</a>
+        <a href="LOGIN.html">Login</a>
+        <div class="cart-icon" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </nav>
+      <button class="mobile-menu-btn" style="display: none;">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="order-progress">
+      <div class="progress-step step-active">
+        <div class="step-number">1</div>
+        <div class="step-text">Select Items</div>
+      </div>
+      <div class="progress-step">
+        <div class="step-number">2</div>
+        <div class="step-text">Review Order</div>
+      </div>
+      <div class="progress-step">
+        <div class="step-number">3</div>
+        <div class="step-text">Complete</div>
+      </div>
+    </div>
+    
+    <h2 class="page-title">Menu</h2>
+    <div class="grid">
+      <div class="card">
+        <img src="C:\Users\KOMOGELO\Downloads\cp isat 2025 website\FULL CHICKEN.jpg" alt="Full Chicken">
+        <h3>Full Chicken</h3>
+        <div class="price">R120</div>
+        <p>Juicy, tender full chicken with our special seasoning.</p>
+        <div class="row">
+          <label>Qty:</label>
+          <input type="number" min="0" value="0" data-price="120" data-name="Full Chicken" onchange="updateCart()">
+        </div>
+      </div>
+      <div class="card">
+        <img src="C:\Users\KOMOGELO\Downloads\cp isat 2025 website\Sunday-Roast-Chicken-Half-e1576587246234.jpg" alt="Half Chicken">
+        <h3>Half Chicken</h3>
+        <div class="price">R70</div>
+        <p>Perfectly grilled half chicken with your choice of sauce.</p>
+        <div class="row">
+          <label>Qty:</label>
+          <input type="number" min="0" value="0" data-price="70" data-name="Half Chicken" onchange="updateCart()">
+        </div>
+      </div>
+      <div class="card">
+        <img src="C:\Users\KOMOGELO\Downloads\cp isat 2025 website\OIP.webp" alt="Steak">
+        <h3>Steak</h3>
+        <div class="price">R65</div>
+        <p>Succulent steak .</p>
+        <div class="row">
+          <label>Qty:</label>
+          <input type="number" min="0" value="0" data-price="65" data-name="Pap & Steak" onchange="updateCart()">
+        </div>
+      </div>
+      <div class="card">
+        <img src="C:\Users\KOMOGELO\Downloads\cp isat 2025 website\download.webp" alt="Stew">
+        <h3>Beef Stew</h3>
+        <div class="price">R60</div>
+        <p>Hearty beef stew served .</p>
+        <div class="row">
+          <label>Qty:</label>
+          <input type="number" min="0" value="0" data-price="60" data-name="Beef Stew" onchange="updateCart()">
+        </div>
+      </div>
+    </div>
+
+    <div class="total-container">
+      <div class="total">Total: R<span id="total">0.00</span></div>
+      <button class="btn checkout-btn" onclick="proceedToOrder()">Proceed to Order</button>
+    </div>
+    
+    <div class="confirmation-screen" id="confirmationScreen">
+      <div class="confirmation-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2>Order Confirmed!</h2>
+      <p>Thank you for your order. Your food is being prepared.</p>
+      <p>Order #: <strong id="orderNumber">CP-12345</strong></p>
+      <p>Estimated delivery time: <strong>30-45 minutes</strong></p>
+      <button class="btn" onclick="resetOrder()" style="margin-top: 20px;">Place New Order</button>
+    </div>
+  </main>
+
+  <div class="modal" id="checkoutModal">
+    <div class="modal-content">
+      <h2 class="modal-title">Complete Your Order</h2>
+      
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div id="orderSummary">
+          
+        </div>
+        <div class="order-item">
+          <strong>Total:</strong>
+          <strong>R<span id="modalTotal">0.00</span></strong>
+        </div>
+      </div>
+      
+      <form id="checkoutForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" required placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="Your email address">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" required placeholder="Your phone number">
+        </div>
+        <div class="form-group">
+          <label for="address">Delivery Address</label>
+          <input type="text" id="address" required placeholder="Where should we deliver?">
+        </div>
+        
+        <button type="button" class="btn btn-success" style="width: 100%;" onclick="processOrder()">Place Order</button>
+        <button type="button" class="btn btn-danger" style="width: 100%; margin-top: 10px;" onclick="closeModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="notification" id="notification">
+    <span id="notificationText"></span>
+  </div>
+
+  <script>
+    let cart = [];
+    let currentStep = 1;
+    
+    function updateCart() {
+      cart = [];
+      let total = 0;
+      let itemCount = 0;
+      
+      const inputs = document.querySelectorAll('input[type=number]');
+      inputs.forEach(input => {
+        const quantity = parseInt(input.value) || 0;
+        if (quantity > 0) {
+          const price = parseFloat(input.dataset.price);
+          const itemTotal = price * quantity;
+          total += itemTotal;
+          itemCount += quantity;
+          
+          cart.push({
+            name: input.dataset.name,
+            price: price,
+            quantity: quantity,
+            total: itemTotal
+          });
+        }
+      });
+      
+      document.getElementById('total').textContent = total.toFixed(2);
+      document.getElementById('cartCount').textContent = itemCount;
+    }
+    
+    function proceedToOrder() {
+      if (cart.length === 0) {
+        showNotification('Please add items to your cart first', 'warning');
+        return;
+      }
+      
+
+      updateProgress(2);
+      
+     
+      document.getElementById('modalTotal').textContent = 
+        document.getElementById('total').textContent;
+      
+      const orderSummary = document.getElementById('orderSummary');
+      orderSummary.innerHTML = '';
+      
+      cart.forEach(item => {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'order-item';
+        itemElement.innerHTML = `
+          <span>${item.name} x${item.quantity}</span>
+          <span>R${item.total.toFixed(2)}</span>
+        `;
+        orderSummary.appendChild(itemElement);
+      });
+      
+      document.getElementById('checkoutModal').style.display = 'flex';
+    }
+    
+    function processOrder() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const address = document.getElementById('address').value;
+      
+      if (!name || !email || !phone || !address) {
+        showNotification('Please fill all fields', 'warning');
+        return;
+      }
+      
+      
+      const orderNumber = 'CP-' + Math.floor(10000 + Math.random() * 90000);
+      document.getElementById('orderNumber').textContent = orderNumber;
+      
+     
+      updateProgress(3);
+      
+     
+      closeModal();
+      
+     
+      document.querySelector('.grid').style.display = 'none';
+      document.querySelector('.total-container').style.display = 'none';
+      document.querySelector('.page-title').style.display = 'none';
+      document.getElementById('confirmationScreen').style.display = 'block';
+      
+      showNotification('Order placed successfully! Thank you for your purchase.', 'success');
+    }
+    
+    function resetOrder() {
+      
+      const inputs = document.querySelectorAll('input[type=number]');
+      inputs.forEach(input => input.value = 0);
+      
+      
+      document.getElementById('checkoutForm').reset();
+      
+      
+      updateProgress(1);
+      
+      
+      document.querySelector('.grid').style.display = 'grid';
+      document.querySelector('.total-container').style.display = 'block';
+      document.querySelector('.page-title').style.display = 'block';
+      document.getElementById('confirmationScreen').style.display = 'none';
+      
+      
+      updateCart();
+    }
+    
+    function updateProgress(step) {
+      currentStep = step;
+      const steps = document.querySelectorAll('.progress-step');
+      
+      steps.forEach((stepElement, index) => {
+        stepElement.classList.remove('step-active', 'step-complete');
+        
+        if (index + 1 < currentStep) {
+          stepElement.classList.add('step-complete');
+        } else if (index + 1 === currentStep) {
+          stepElement.classList.add('step-active');
+        }
+      });
+    }
+    
+    function closeModal() {
+      document.getElementById('checkoutModal').style.display = 'none';
+    }
+    
+    function showNotification(message, type = 'success') {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notificationText');
+      
+      notificationText.textContent = message;
+      
+      if (type === 'success') {
+        notification.style.background = '#10b981';
+      } else if (type === 'warning') {
+        notification.style.background = '#f59e0b';
+      } else {
+        notification.style.background = '#ef4444';
+      }
+      
+      notification.style.display = 'block';
+      
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+    
+    window.onclick = function(event) {
+      const modal = document.getElementById('checkoutModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
+    
+    document.addEventListener('DOMContentLoaded', updateCart);
+  </script>
+</body>
+</html>
